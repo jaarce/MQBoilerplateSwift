@@ -46,7 +46,7 @@ public class MQAsynchronousOperation: MQOperation {
         }
         
         self.willChangeValueForKey("isExecuting")
-        NSThread.detachNewThreadSelector(Selector("main"), toTarget: self, withObject: nil)
+        NSThread.detachNewThreadSelector(#selector(NSOperation.main), toTarget: self, withObject: nil)
         self._executing = true
         self.didChangeValueForKey("isExecuting")
     }

@@ -94,7 +94,7 @@ public class MQURLOperation: MQAsynchronousOperation {
                     request.HTTPBody = HTTPBody
                     
                     
-                    let theString: NSString = NSString(data: HTTPBody, encoding: NSASCIIStringEncoding)!
+                    let _: NSString = NSString(data: HTTPBody, encoding: NSASCIIStringEncoding)!
                     //print(theString)
                     
                 }
@@ -118,7 +118,7 @@ public class MQURLOperation: MQAsynchronousOperation {
     If you set the `contentType` to `.MultipartFormData`, you must override this function.
     */
     public func createMultipartFormData() -> NSMutableData {
-        fatalError("Did not override: \(__FUNCTION__)")
+        fatalError("Did not override: \(#function)")
     }
     
     public override func main() {

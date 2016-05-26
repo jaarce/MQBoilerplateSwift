@@ -131,7 +131,7 @@ public class MQLoadableViewController: UIViewController {
     you may also just show the `primaryView` even if the data source is empty.
     */
     public func createOperation() -> MQOperation? {
-        fatalError("Unimplemented function \(__FUNCTION__)")
+        fatalError("Unimplemented function \(#function)")
     }
     
     /**
