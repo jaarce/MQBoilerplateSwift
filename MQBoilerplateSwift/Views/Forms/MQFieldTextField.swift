@@ -35,7 +35,7 @@ public class MQFieldTextField : UITextField {
             self.autocapitalizationType = field.autocapitalizationType
         }
         
-        //print("MQFieldTextField applyTextInputTraits")
+        //Debugger.debug("MQFieldTextField applyTextInputTraits")
     }
     
 }
