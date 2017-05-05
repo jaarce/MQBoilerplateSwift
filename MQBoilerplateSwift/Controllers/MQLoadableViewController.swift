@@ -35,18 +35,18 @@ but finds no results. The standard `noResultsView`, an instance of `MQNoResultsV
 contains a `UILabel` that says there were no results found.
 
 */
-public class MQLoadableViewController: UIViewController {
+open class MQLoadableViewController: UIViewController {
     
     public enum View {
-        case Starting, Loading, Retry, Primary, NoResults
+        case starting, loading, retry, primary, noResults
     }
-    public var operationQueue = NSOperationQueue()
+    open var operationQueue = OperationQueue()
     
-    public var startingView: MQStartingView = MQDefaultStartingView()
-    public var loadingView: UIView = MQLoadingView()
-    public var retryView: MQRetryView = MQDefaultRetryView()
-    public var primaryView = UIView()
-    public var noResultsView: MQNoResultsView = MQDefaultNoResultsView()
+    open var startingView: MQStartingView = MQDefaultStartingView()
+    open var loadingView: UIView = MQLoadingView()
+    open var retryView: MQRetryView = MQDefaultRetryView()
+    open var primaryView = UIView()
+    open var noResultsView: MQNoResultsView = MQDefaultNoResultsView()
     
     /**
     A flag used by `viewWillAppear:` to check if it will be the first time for
@@ -67,7 +67,7 @@ public class MQLoadableViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func loadView() {
+    open override func loadView() {
         let mainView = UIView()
         self.view = mainView
         
@@ -86,33 +86,33 @@ public class MQLoadableViewController: UIViewController {
     Override this function and assign a value to `self.startingView`
     if you want a custom `startingView`.
     */
-    public func setupStartingView() {}
+    open func setupStartingView() {}
     
     /**
     Override this function and assign a value to `self.loadingView`
     if you want a custom `loadingView`.
     */
-    public func setupLoadingView() {}
+    open func setupLoadingView() {}
     
     /**
     Override this function and assign a value to `self.retryView`
     if you want a custom `retryView`.
     */
-    public func setupRetryView() {}
+    open func setupRetryView() {}
     
     /**
     Override this function and assign a value to `self.primaryView`
     if you want a custom `primaryView`.
     */
-    public func setupPrimaryView() {}
+    open func setupPrimaryView() {}
     
     /**
     Override this function and assign a value to `self.noResultsView`
     if you want a custom `noResultsView`.
     */
-    public func setupNoResultsView() {}
+    open func setupNoResultsView() {}
     
-    public func setupViewConstraints() {
+    open func setupViewConstraints() {
         self.startingView.fillSuperview()
         self.loadingView.fillSuperview()
         self.primaryView.fillSuperview()
@@ -130,7 +130,7 @@ public class MQLoadableViewController: UIViewController {
     and there are items in the data source, or the `noResultsView` if there are none. Alternatively,
     you may also just show the `primaryView` even if the data source is empty.
     */
-    public func createOperation() -> MQOperation? {
+    open func createOperation() -> MQOperation? {
         fatalError("Unimplemented function \(#function)")
     }
     
@@ -138,35 +138,35 @@ public class MQLoadableViewController: UIViewController {
     Generates a new operation from `createOperation()`, overrides its `startBlock` to show the
     `loadingView` and the `failureBlock` to show the `retryView`, and runs the operation.
     */
-    public func runOperation() {
+    open func runOperation() {
         guard let operation = self.createOperation() else {
             return
         }
         
         operation.startBlock = {[unowned self] in
-            self.showView(.Loading)
+            self.showView(.loading)
         }
         
         operation.failureBlock = {[unowned self] error in
             self.retryView.error = error
-            self.showView(.Retry)
+            self.showView(.retry)
         }
         
         self.operationQueue.addOperation(operation)
     }
     
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         
         self.setupViewConstraints()
         
-        self.showView(.Starting)
+        self.showView(.starting)
         
         self.retryView.delegate = self
         self.noResultsView.delegate = self
     }
     
-    public override func viewWillAppear(animated: Bool) {
+    open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // We start the task if the view is appearing for the first time
@@ -177,19 +177,19 @@ public class MQLoadableViewController: UIViewController {
         }
     }
     
-    public func showView(view: MQLoadableViewController.View) {
-        self.startingView.hidden = view != .Starting
-        self.loadingView.hidden = view != .Loading
-        self.primaryView.hidden = view != .Primary
-        self.retryView.hidden = view != .Retry
-        self.noResultsView.hidden = view != .NoResults
+    open func showView(_ view: MQLoadableViewController.View) {
+        self.startingView.isHidden = view != .starting
+        self.loadingView.isHidden = view != .loading
+        self.primaryView.isHidden = view != .primary
+        self.retryView.isHidden = view != .retry
+        self.noResultsView.isHidden = view != .noResults
     }
     
 }
 
 extension MQLoadableViewController: MQRetryViewDelegate {
     
-    public func retryViewDidTapRetry(retryView: MQRetryView) {
+    public func retryViewDidTapRetry(_ retryView: MQRetryView) {
         self.runOperation()
     }
     
@@ -197,7 +197,7 @@ extension MQLoadableViewController: MQRetryViewDelegate {
 
 extension MQLoadableViewController: MQNoResultsViewDelegate {
     
-    public func noResultsViewDidTapRetry(noResultsView: MQNoResultsView) {
+    public func noResultsViewDidTapRetry(_ noResultsView: MQNoResultsView) {
         self.runOperation()
     }
     

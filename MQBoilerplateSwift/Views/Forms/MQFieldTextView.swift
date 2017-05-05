@@ -8,9 +8,9 @@
 
 import UIKit
 
-public class MQFieldTextView: UITextView {
+open class MQFieldTextView: UITextView {
     
-    public weak var field: MQField? {
+    open weak var field: MQField? {
         didSet {
             if let field = self.field,
                 let value = field.value as? String {

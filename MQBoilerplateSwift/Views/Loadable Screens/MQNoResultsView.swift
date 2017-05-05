@@ -10,13 +10,13 @@ import UIKit
 
 public protocol MQNoResultsViewDelegate {
     
-    func noResultsViewDidTapRetry(noResultsView: MQNoResultsView)
+    func noResultsViewDidTapRetry(_ noResultsView: MQNoResultsView)
     
 }
 
-public class MQNoResultsView: UIView {
+open class MQNoResultsView: UIView {
     
-    public var text: String?
-    public var delegate: MQNoResultsViewDelegate?
+    open var text: String?
+    open var delegate: MQNoResultsViewDelegate?
     
 }

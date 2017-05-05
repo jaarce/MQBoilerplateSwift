@@ -12,48 +12,48 @@ import Foundation
 An `MQOperation` subclass that runs asynchronously. It overrides the properties and
 functions that are required to be overriden when implementing an asynchronous `NSOperation`.
 */
-public class MQAsynchronousOperation: MQOperation {
+open class MQAsynchronousOperation: MQOperation {
     
     // MARK: Internal state variables
     
-    private var _executing = false
-    private var _finished = false
+    fileprivate var _executing = false
+    fileprivate var _finished = false
     
     // MARK: NSOperation required overrides
     
-    public override var concurrent: Bool {
+    open override var isConcurrent: Bool {
         return true
     }
     
-    public override var asynchronous: Bool {
+    open override var isAsynchronous: Bool {
         return true
     }
     
-    public override var executing: Bool {
+    open override var isExecuting: Bool {
         return self._executing
     }
     
-    public override var finished: Bool {
+    open override var isFinished: Bool {
         return self._finished
     }
     
-    public override func start() {
-        if self.cancelled {
-            self.willChangeValueForKey("isFinished")
+    open override func start() {
+        if self.isCancelled {
+            self.willChangeValue(forKey: "isFinished")
             self._finished = true
-            self.didChangeValueForKey("isFinished")
+            self.didChangeValue(forKey: "isFinished")
             return
         }
         
-        self.willChangeValueForKey("isExecuting")
-        NSThread.detachNewThreadSelector(#selector(NSOperation.main), toTarget: self, withObject: nil)
+        self.willChangeValue(forKey: "isExecuting")
+        Thread.detachNewThreadSelector(#selector(Operation.main), toTarget: self, with: nil)
         self._executing = true
-        self.didChangeValueForKey("isExecuting")
+        self.didChangeValue(forKey: "isExecuting")
     }
     
-    public override func main() {
+    open override func main() {
         defer {
-            if self.cancelled == false {
+            if self.isCancelled == false {
             self.runFinishBlock()
             }
             self.closeOperation()
@@ -65,19 +65,19 @@ public class MQAsynchronousOperation: MQOperation {
             let result = try self.buildResult(nil)
             self.runSuccessBlockWithResult(result)
         } catch {
-            self.runFailureBlockWithError(error)
+            self.runFailureBlockWithError(error as NSError)
         }
     }
     
-    public func closeOperation() {
-        self.willChangeValueForKey("isExecuting")
-        self.willChangeValueForKey("isFinished")
+    open func closeOperation() {
+        self.willChangeValue(forKey: "isExecuting")
+        self.willChangeValue(forKey: "isFinished")
         
         self._executing = false
         self._finished = true
         
-        self.didChangeValueForKey("isExecuting")
-        self.didChangeValueForKey("isFinished")
+        self.didChangeValue(forKey: "isExecuting")
+        self.didChangeValue(forKey: "isFinished")
     }
     
 }

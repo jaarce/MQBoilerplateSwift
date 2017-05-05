@@ -13,18 +13,18 @@ A subclass of `UITableViewCell` that preserves its subviews' background colors
 even when the cell is selected of highlighted. Set the background colors in
 `applyConstantColors()`, which is invoked upon cell selection or highlight.
 */
-public class MQTableViewCell: UITableViewCell {
+open class MQTableViewCell: UITableViewCell {
     
-    public func applyConstantColors() {
+    open func applyConstantColors() {
         
     }
     
-    public override func setSelected(selected: Bool, animated: Bool) {
+    open override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         self.applyConstantColors()
     }
     
-    public override func setHighlighted(highlighted: Bool, animated: Bool) {
+    open override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         self.applyConstantColors()
     }

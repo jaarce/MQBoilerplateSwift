@@ -16,7 +16,7 @@ public protocol MQArchivableValueType {
     be converted to a Swift dictionary, a fatal error is produced and you should check
     what's wrong with the file.
     */
-    init(archiveData data: NSData)
+    init(archiveData data: Data)
     
     /**
     Called from within `init(archiveData:)` when the data is successfully converted to a dictionary.
@@ -34,8 +34,8 @@ public protocol MQArchivableValueType {
 
 public extension MQArchivableValueType {
     
-    init(archiveData data: NSData) {
-        guard let dictionary = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? [String : AnyObject] else {
+    init(archiveData data: Data) {
+        guard let dictionary = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String : AnyObject] else {
             fatalError("Cannot convert to NSData.")
         }
         self.init(archiveDictionary: dictionary)

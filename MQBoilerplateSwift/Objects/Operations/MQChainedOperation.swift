@@ -8,25 +8,25 @@
 
 import Foundation
 
-public class MQChainedOperation: MQAsynchronousOperation {
+open class MQChainedOperation: MQAsynchronousOperation {
     
-    var operationQueue = NSOperationQueue()
+    var operationQueue = OperationQueue()
     var operations: [MQOperation]
     
     public init(_ operations: MQOperation ...) {
         self.operations = operations
     }
     
-    public func addOperation(operation: MQOperation) {
+    open func addOperation(_ operation: MQOperation) {
         self.operations.append(operation)
     }
     
-    public override func main() {
+    open override func main() {
         defer {
             self.closeOperation()
         }
         
-        if self.cancelled {
+        if self.isCancelled {
             return
         }
         
@@ -71,7 +71,7 @@ public class MQChainedOperation: MQAsynchronousOperation {
                 self.runFinishBlock()
             }
             
-            if self.cancelled {
+            if self.isCancelled {
                 return
             }
         }

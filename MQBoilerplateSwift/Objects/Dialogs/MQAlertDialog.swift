@@ -8,23 +8,23 @@
 
 import Foundation
 
-public class MQAlertDialog {
+open class MQAlertDialog {
     
-    public class func showInPresenter(presenter: UIViewController,
+    open class func showInPresenter(_ presenter: UIViewController,
         title: String? = nil,
         message: String = "Message",
         cancelButtonTitle: String = "OK") {
             let alertController = UIAlertController(title: title,
                 message: message,
-                preferredStyle: .Alert)
+                preferredStyle: .alert)
             
             let cancelAction = UIAlertAction(title: cancelButtonTitle,
-                style: .Cancel) { _ in
-                    presenter.dismissViewControllerAnimated(true, completion: nil)
+                style: .cancel) { _ in
+                    presenter.dismiss(animated: true, completion: nil)
             }
             alertController.addAction(cancelAction)
             
-            presenter.presentViewController(alertController, animated: true, completion: nil)
+            presenter.present(alertController, animated: true, completion: nil)
     }
     
 }

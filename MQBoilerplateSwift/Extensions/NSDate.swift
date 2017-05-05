@@ -8,14 +8,14 @@
 
 import Foundation
 
-public extension NSDate {
+public extension Date {
     
-    public func isSameDayAsDate(date: NSDate) -> Bool {
-        let calendar = NSCalendar.currentCalendar()
-        let components: NSCalendarUnit = [.Month, .Day, .Year]
+    public func isSameDayAsDate(_ date: Date) -> Bool {
+        let calendar = Calendar.current
+        let components: NSCalendar.Unit = [.month, .day, .year]
         
-        let thisDate = calendar.components(components, fromDate: self)
-        let otherDate = calendar.components(components, fromDate: date)
+        let thisDate = (calendar as NSCalendar).components(components, from: self)
+        let otherDate = (calendar as NSCalendar).components(components, from: date)
         
         return thisDate.month == otherDate.month &&
             thisDate.day == otherDate.day &&

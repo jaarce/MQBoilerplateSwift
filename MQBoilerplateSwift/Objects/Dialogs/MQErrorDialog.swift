@@ -10,14 +10,14 @@ import UIKit
 
 public final class MQErrorDialog {
     
-    public class func showError(error: NSError, inPresenter presenter: UIViewController) {
-        let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .Alert)
-        let okButtonAction = UIAlertAction(title: "OK", style: .Default) {_ in
-            alertController.dismissViewControllerAnimated(true, completion: nil)
+    public class func showError(_ error: NSError, inPresenter presenter: UIViewController) {
+        let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+        let okButtonAction = UIAlertAction(title: "OK", style: .default) {_ in
+            alertController.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(okButtonAction)
         
-        presenter.presentViewController(alertController, animated: true, completion: nil)
+        presenter.present(alertController, animated: true, completion: nil)
     }
     
 }

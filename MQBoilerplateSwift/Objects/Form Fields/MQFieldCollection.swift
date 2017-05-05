@@ -8,10 +8,10 @@
 
 import Foundation
 
-public class MQFieldCollection<T: MQDataModel> {
+open class MQFieldCollection<T: MQDataModel> {
     
-    public var fields: [MQField]
-    public var count: Int {
+    open var fields: [MQField]
+    open var count: Int {
         return self.fields.count
     }
     
@@ -22,7 +22,7 @@ public class MQFieldCollection<T: MQDataModel> {
     /**
     Returns only the first field that matches the supplied field name, or `nil` if none.
     */
-    public subscript(fieldName: String) -> MQField? {
+    open subscript(fieldName: String) -> MQField? {
         let matches = self.fields.filter { $0.name == fieldName }
         if let firstMatch = matches.first {
             return firstMatch
@@ -33,7 +33,7 @@ public class MQFieldCollection<T: MQDataModel> {
     /**
     Returns the field at a given index.
     */
-    public subscript(index: Int) -> MQField {
+    open subscript(index: Int) -> MQField {
         if index > 0 && index < self.fields.count {
             return self.fields[index]
         }
@@ -44,7 +44,7 @@ public class MQFieldCollection<T: MQDataModel> {
     Returns a JSON representation of the field collection which can be used
     as the HTTP body of a URL request. You must override this method to define the JSON object.
     */
-    public func toJSON() -> [String : AnyObject] {
+    open func toJSON() -> [String : AnyObject] {
         fatalError("Unimplemented: \(#function)")
     }
     

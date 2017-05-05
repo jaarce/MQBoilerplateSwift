@@ -8,33 +8,33 @@
 
 import Foundation
 
-private let CGSizeMax = CGSizeMake(CGFloat.max, CGFloat.max)
+private let CGSizeMax = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
 
 /**
 A subclass of `UILabel` that automatically adjusts the text's font size
 so that the text fits exactly within the bounds of the label.
 */
-public class MQAspectFitLabel: UILabel {
+open class MQAspectFitLabel: UILabel {
     
-    private enum ScaleDirection {
-        case Grow, Shrink, None
+    fileprivate enum ScaleDirection {
+        case grow, shrink, none
         
         func opposite() -> ScaleDirection {
             switch self {
-            case .Grow:
-                return .Shrink
+            case .grow:
+                return .shrink
                 
-            case .Shrink:
-                return .Grow
+            case .shrink:
+                return .grow
                 
-            case .None:
-                return .None
+            case .none:
+                return .none
             }
         }
     }
     
     public init() {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         self.setTextAlignment()
     }
     
@@ -49,10 +49,10 @@ public class MQAspectFitLabel: UILabel {
     }
     
     func setTextAlignment() {
-        self.textAlignment = .Center
+        self.textAlignment = .center
     }
     
-    public func setFontSize(fontSize: CGFloat) {
+    open func setFontSize(_ fontSize: CGFloat) {
         self.font = UIFont(name: self.font.fontName, size: fontSize)
     }
     
@@ -64,10 +64,10 @@ public class MQAspectFitLabel: UILabel {
     are the same font size. This will not work properly on attributed strings that have
     different font sizes in certain parts of the string.
     */
-    public func adjustFontSizeToScaleAspectFit() {
-        if let _: NSString = self.text {
+    open func adjustFontSizeToScaleAspectFit() {
+        if let _: NSString = self.text as NSString? {
             // Find the min and max font sizes before doing a binary search.
-            var currentSize = self.self.font.pointSize > 0 ? self.self.font.pointSize : UIFont.systemFontSize()
+            var currentSize = self.self.font.pointSize > 0 ? self.self.font.pointSize : UIFont.systemFontSize
             var min = CGFloat(0)
             var max = CGFloat(0)
             
@@ -76,7 +76,7 @@ public class MQAspectFitLabel: UILabel {
             
             loop: while true {
                 switch currentDirection {
-                case .None:
+                case .none:
                     // The correct font size was suddenly found, so set it already
                     // and leave the function.
                     self.setFontSize(currentSize)
@@ -84,17 +84,17 @@ public class MQAspectFitLabel: UILabel {
                     
                 default:
                     if currentDirection == startingDirection.opposite() {
-                        if startingDirection == .Grow {
+                        if startingDirection == .grow {
                             max = currentSize
                             min = max / 2
-                        } else if startingDirection == .Shrink {
+                        } else if startingDirection == .shrink {
                             min = currentSize
                             max = min * 2
                         }
                         break loop
-                    } else if currentDirection == .Grow {
+                    } else if currentDirection == .grow {
                         currentSize *= 2
-                    } else if currentDirection == .Shrink {
+                    } else if currentDirection == .shrink {
                         currentSize /= 2
                     }
                 }
@@ -109,13 +109,13 @@ public class MQAspectFitLabel: UILabel {
                 mid = min + ((max - min) / 2)
                 
                 switch self.scaleDirectionForFontSize(mid) {
-                case .Grow:
+                case .grow:
                     min = mid
                     
-                case .Shrink:
+                case .shrink:
                     max = mid
                     
-                case .None:
+                case .none:
                     self.setFontSize(mid)
                     return
                 }
@@ -123,10 +123,10 @@ public class MQAspectFitLabel: UILabel {
         }
     }
     
-    private func scaleDirectionForFontSize(fontSize: CGFloat) -> ScaleDirection {
+    fileprivate func scaleDirectionForFontSize(_ fontSize: CGFloat) -> ScaleDirection {
         if let text = self.text {
-            let textSize = text.boundingRectWithSize(CGSizeMax,
-                options: [.UsesLineFragmentOrigin, .UsesFontLeading],
+            let textSize = text.boundingRect(with: CGSizeMax,
+                options: [.usesLineFragmentOrigin, .usesFontLeading],
                 attributes: [NSFontAttributeName : UIFont(name: self.font.fontName, size: fontSize)!],
                 context: nil).size
             
@@ -136,16 +136,16 @@ public class MQAspectFitLabel: UILabel {
             let textHeight = ceil(textSize.height)
             
             if labelWidth > textWidth && labelHeight > textHeight {
-                return .Grow
+                return .grow
             } else if labelWidth < textWidth || labelHeight < textHeight {
-                return .Shrink
+                return .shrink
             }
         }
         
-        return .None
+        return .none
     }
     
-    public override func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
         self.adjustFontSizeToScaleAspectFit()
     }

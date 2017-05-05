@@ -10,11 +10,11 @@ import Foundation
 
 public let kMQGenericErrorCode: Int = -1
 
-public class MQError: NSError {
+open class MQError: NSError {
     
-    public var message: String
+    open var message: String
     
-    public override var localizedDescription: String {
+    open override var localizedDescription: String {
         return self.message
     }
     
@@ -22,7 +22,7 @@ public class MQError: NSError {
         self.message = message
         
         // Set the error's domain property.
-        let domain = NSBundle.mainBundle().bundleIdentifier ?? ""
+        let domain = Bundle.main.bundleIdentifier ?? ""
         super.init(domain: domain, code: kMQGenericErrorCode, userInfo: nil)
     }
     

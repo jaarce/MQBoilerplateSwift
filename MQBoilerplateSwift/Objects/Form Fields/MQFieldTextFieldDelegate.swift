@@ -11,9 +11,9 @@ import Foundation
 /**
 A `UITextFieldDelegate` that changes the value of the `MQField` associated with an `MQFieldTextField`.
 */
-public class MQFieldTextFieldDelegate: NSObject, UITextFieldDelegate {
+open class MQFieldTextFieldDelegate: NSObject, UITextFieldDelegate {
     
-    public func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    open func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let fieldTextField = textField as? MQFieldTextField {
             if let field = fieldTextField.field {
                 if let invalidCharacterSet = field.invalidCharacterSet {
@@ -23,7 +23,7 @@ public class MQFieldTextFieldDelegate: NSObject, UITextFieldDelegate {
                 }
                 
                 if let mutableText = textField.text!.mutableCopy() as? NSMutableString {
-                    mutableText.replaceCharactersInRange(range, withString: string)
+                    mutableText.replaceCharacters(in: range, with: string)
                     field.value = mutableText
                 }
             }

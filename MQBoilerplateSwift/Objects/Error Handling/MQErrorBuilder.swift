@@ -10,6 +10,6 @@ import Foundation
 
 public protocol MQErrorBuilder {
     
-    func errorObjectForError(error: ErrorType) -> NSError
+    func errorObjectForError(_ error: Error) -> NSError
     
 }

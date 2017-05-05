@@ -8,32 +8,32 @@
 
 import Foundation
 
-public class MQConfirmDialog {
+open class MQConfirmDialog {
     
-    public class func showInPresenter(presenter: UIViewController,
+    open class func showInPresenter(_ presenter: UIViewController,
         title: String = "Confirm",
         message: String = "Are you sure?",
         confirmButtonTitle: String = "Yes",
         cancelButtonTitle: String = "Cancel",
         confirmAction someAction: (() -> ())?) {
-            let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
             
             let confirmButtonAction = UIAlertAction(title: confirmButtonTitle,
-                style: .Default) { _ in
+                style: .default) { _ in
                     if let confirmAction = someAction {
                         confirmAction()
                     }
-                    alertController.dismissViewControllerAnimated(true, completion: nil)
+                    alertController.dismiss(animated: true, completion: nil)
             }
             alertController.addAction(confirmButtonAction)
             
             let cancelAction = UIAlertAction(title: cancelButtonTitle,
-                style: UIAlertActionStyle.Cancel) { _ in
-                    alertController.dismissViewControllerAnimated(true, completion: nil)
+                style: UIAlertActionStyle.cancel) { _ in
+                    alertController.dismiss(animated: true, completion: nil)
             }
             alertController.addAction(cancelAction)
             
-            presenter.presentViewController(alertController, animated: true, completion: nil)
+            presenter.present(alertController, animated: true, completion: nil)
     }
     
 }
