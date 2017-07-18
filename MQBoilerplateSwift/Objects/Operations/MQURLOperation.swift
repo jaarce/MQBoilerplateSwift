@@ -135,10 +135,13 @@ open class MQURLOperation: MQAsynchronousOperation {
         }
         
         let request = self.createRequest()
-//        self.session.data
-        self.session.dataTask(with: request as URLRequest) { (data, response, error) in
+
+        //JJ 07.18.2017 - modified instantiation of the data task
+        
+        self.task = self.session.dataTask(with: request as URLRequest) { (data, response, error) in
             self.handleResponse(response, data, error)
         }
+        
         self.task.resume()
     }
     
