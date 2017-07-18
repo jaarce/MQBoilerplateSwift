@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.author             = { "JA Arce" => "jarce@teamimpact.com" }
   s.platform     = :ios, "8.0"
   s.ios.deployment_target = "8.0"
-  s.source       = { :git => "https://github.com/jaarce/MQBoilerplateSwift.git", :tag => "4.0" }
+  s.source       = { :git => "https://github.com/jaarce/MQBoilerplateSwift.git", :tag => "4.0.1" }
   s.source_files  = "MQBoilerplateSwift/**/*.{swift}"
   s.requires_arc = true
 
